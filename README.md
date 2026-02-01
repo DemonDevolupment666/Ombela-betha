@@ -248,8 +248,8 @@ Para melhorar o sistema:
 ## 📞 Suporte
 
 **Ombela Market**
-- 📧 Email: contato@ombelamarket.com
-- 📱 Telefone: +244 936 408 070
+- 📧 Email: canelea8@gmail.com
+- 📱 Telefone: +244 942615308
 - 🌍 Angola
 
 ---
