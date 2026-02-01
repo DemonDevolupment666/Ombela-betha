@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ombela Market</title>
+    <link rel="stylesheet" href="styles/global.css"/>
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #0a0f2c 0%, #1b3b8f 100%);
+            padding: 20px;
+        }
+
+        .auth-box {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .auth-box h2 {
+            text-align: center;
+            color: #0a0f2c;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        .auth-box p {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 30px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            background: transparent;
+            color: #6b7280;
+            font-weight: 600;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .auth-tab.active {
+            color: #0084ff;
+            border-bottom-color: #0084ff;
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #0084ff;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #0084ff 0%, #00a2ff 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-container h1 {
+            color: #00a2ff;
+            font-size: 2.5rem;
+        }
+
+        .logo-container span {
+            color: #bd702c;
+        }
+
+        .error-message {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .success-message {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 12px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .tipo-conta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tipo-opcao {
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .tipo-opcao:hover {
+            border-color: #0084ff;
+        }
+
+        .tipo-opcao.selected {
+            border-color: #0084ff;
+            background: #eff6ff;
+        }
+
+        .tipo-opcao input[type="radio"] {
+            display: none;
+        }
+
+        .tipo-opcao .icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+
+        .tipo-opcao .label {
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .campo-loja {
+            display: none;
+        }
+
+        .campo-loja.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-box">
+            <div class="logo-container">
+                <h1>OMBELA<span> MARKET</span></h1>
+            </div>
+
+            <div id="error-message" class="error-message"></div>
+            <div id="success-message" class="success-message"></div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="trocarTab('login')">Entrar</button>
+                <button class="auth-tab" onclick="trocarTab('registro')">Criar Conta</button>
+            </div>
+
+            <!-- Formulário de Login -->
+            <form id="form-login" class="auth-form active" onsubmit="fazerLogin(event)">
+                <h2>Bem-vindo de volta!</h2>
+                <p>Entre com suas credenciais</p>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="login-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <input type="password" id="login-senha" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+
+            <!-- Formulário de Registro -->
+            <form id="form-registro" class="auth-form" onsubmit="fazerRegistro(event)">
+                <h2>Crie sua conta</h2>
+                <p>Junte-se ao Ombela Market</p>
+
+                <div class="tipo-conta">
+                    <div class="tipo-opcao selected" onclick="selecionarTipo('cliente')">
+                        <input type="radio" name="tipo" value="cliente" checked>
+                        <div class="icon">👤</div>
+                        <div class="label">Cliente</div>
+                    </div>
+                    <div class="tipo-opcao" onclick="selecionarTipo('vendedor')">
+                        <input type="radio" name="tipo" value="vendedor">
+                        <div class="icon">🏪</div>
+                        <div class="label">Vendedor</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome Completo:</label>
+                    <input type="text" id="registro-nome" required>
+                </div>
+
+                <div class="form-group campo-loja" id="campo-nome-loja">
+                    <label>Nome da Loja:</label>
+                    <input type="text" id="registro-loja">
+                </div>
+
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="registro-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Senha:</label>
+                    <input type="password" id="registro-senha" minlength="6" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Confirmar Senha:</label>
+                    <input type="password" id="registro-confirmar-senha" minlength="6" required>
+                </div>
+
+                <button type="submit" class="btn-submit">Criar Conta</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="models/Usuario.js"></script>
+    <script>
+        let usuarioRepository;
+        let sessaoManager;
+        let tipoContaSelecionado = 'cliente';
+
+        document.addEventListener('DOMContentLoaded', function() {
+            usuarioRepository = new UsuarioRepository();
+            sessaoManager = new SessaoManager();
+
+            // Redirecionar se já estiver logado
+            if (sessaoManager.isLogado()) {
+                const usuario = sessaoManager.getUsuario();
+                if (usuario.tipoUsuario === 'vendedor') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }
+        });
+
+        function trocarTab(tab) {
+            // Atualizar tabs
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Atualizar formulários
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            if (tab === 'login') {
+                document.getElementById('form-login').classList.add('active');
+            } else {
+                document.getElementById('form-registro').classList.add('active');
+            }
+
+            // Limpar mensagens
+            esconderMensagens();
+        }
+
+        function selecionarTipo(tipo) {
+            tipoContaSelecionado = tipo;
+
+            // Atualizar visual
+            document.querySelectorAll('.tipo-opcao').forEach(op => {
+                op.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+
+            // Mostrar/esconder campo de loja
+            const campoLoja = document.getElementById('campo-nome-loja');
+            const inputLoja = document.getElementById('registro-loja');
+            
+            if (tipo === 'vendedor') {
+                campoLoja.classList.add('show');
+                inputLoja.required = true;
+            } else {
+                campoLoja.classList.remove('show');
+                inputLoja.required = false;
+            }
+        }
+
+        function fazerLogin(event) {
+            event.preventDefault();
+
+            const email = document.getElementById('login-email').value;
+            const senha = document.getElementById('login-senha').value;
+
+            const usuario = usuarioRepository.autenticar(email, senha);
+
+            if (usuario) {
+                sessaoManager.login(usuario);
+                mostrarSucesso('Login realizado com sucesso! Redirecionando...');
+                
+                setTimeout(() => {
+                    if (usuario.tipoUsuario === 'vendedor') {
+                        window.location.href = 'admin.html';
+                    } else {
+                        window.location.href = 'index.html';
+                    }
+                }, 1000);
+            } else {
+                mostrarErro('Email ou senha incorretos!');
+            }
+        }
+
+        function fazerRegistro(event) {
+            event.preventDefault();
+
+            const nome = document.getElementById('registro-nome').value;
+            const email = document.getElementById('registro-email').value;
+            const senha = document.getElementById('registro-senha').value;
+            const confirmarSenha = document.getElementById('registro-confirmar-senha').value;
+            const nomeLoja = document.getElementById('registro-loja').value;
+
+            // Validações
+            if (senha !== confirmarSenha) {
+                mostrarErro('As senhas não coincidem!');
+                return;
+            }
+
+            if (usuarioRepository.obterPorEmail(email)) {
+                mostrarErro('Este email já está cadastrado!');
+                return;
+            }
+
+            if (tipoContaSelecionado === 'vendedor' && !nomeLoja) {
+                mostrarErro('Por favor, informe o nome da loja!');
+                return;
+            }
+
+            // Criar usuário
+            const usuario = new Usuario(
+                null,
+                nome,
+                email,
+                senha,
+                tipoContaSelecionado === 'vendedor' ? nomeLoja : null,
+                tipoContaSelecionado
+            );
+
+            usuarioRepository.adicionar(usuario);
+            mostrarSucesso('Conta criada com sucesso! Fazendo login...');
+
+            setTimeout(() => {
+                sessaoManager.login(usuario);
+                if (usuario.tipoUsuario === 'vendedor') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'index.html';
+                }
+            }, 1500);
+        }
+
+        function mostrarErro(mensagem) {
+            const errorDiv = document.getElementById('error-message');
+            errorDiv.textContent = mensagem;
+            errorDiv.style.display = 'block';
+            document.getElementById('success-message').style.display = 'none';
+        }
+
+        function mostrarSucesso(mensagem) {
+            const successDiv = document.getElementById('success-message');
+            successDiv.textContent = mensagem;
+            successDiv.style.display = 'block';
+            document.getElementById('error-message').style.display = 'none';
+        }
+
+        function esconderMensagens() {
+            document.getElementById('error-message').style.display = 'none';
+            document.getElementById('success-message').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

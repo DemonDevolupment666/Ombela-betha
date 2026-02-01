@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ombela Market</title>
+    <link rel="stylesheet" href="styles/global.css"/>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="navbar">
+        <div class="header-inner-content">
+           <h1 class="logo">OMBELA<span> MARKET</span></h1>
+           <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+           <nav class="nav-links">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="lojas.html">Lojas</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="contactos.html">Contactos</a></li>
+                    <li><a href="admin.html">Admin</a></li>
+                </ul>
+           </nav>
+           <div class="nav-icon-container">
+                <img src="images/carrinho.png" onclick="abrirCarrinho()" style="cursor: pointer;"/>
+           </div>
+        </div>
+    </div>
+
+    <!-- Carrinho flutuante -->
+    <div id="floating-cart" class="floating-cart" onclick="abrirCarrinho()">
+        🛒
+        <span id="cart-count">0</span>
+    </div>
+
+    <!-- Modal Carrinho -->
+    <div id="cart-modal" class="cart-modal">
+        <div class="cart-content">
+            <h3>Meu Carrinho</h3>
+            <ul id="cart-items"></ul>
+            <div class="cart-total" id="cart-total">
+                Total: <strong>0 Kz</strong>
+            </div>
+            <div class="cart-actions">
+                <button class="pay" onclick="app.processarPagamento()">Pagar</button>
+                <button class="cancel" onclick="fecharCarrinho()">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pesquisa e filtros -->
+    <section class="search-filter">
+        <input type="text" id="searchInput" placeholder="Pesquisar produtos...">
+        <select id="categoryFilter">
+            <option value="">Todas categorias</option>
+            <option value="eletronicos">Eletrónicos</option>
+            <option value="moda">Moda</option>
+            <option value="alimentacao">Alimentação</option>
+        </select>
+        <select id="priceFilter">
+            <option value="">Ordenar por preço</option>
+            <option value="low">Mais barato</option>
+            <option value="high">Mais caro</option>
+        </select>
+        <button onclick="filtrarProdutos()">Pesquisar</button>
+    </section>
+
+    <header>
+        <!-- Banner Principal -->
+        <section class="principal">    
+            <div class="header-inner-content">
+                <div class="header-button-side">
+                    <div class="left">
+                        <h2>Chuva de possibilidades e entrega de soluções!</h2>
+                        <p>
+                            A Ombela Market é um marketplace e serviço de entregas que visa
+                            revolucionar o acesso a produtos e serviços de alta qualidade
+                            em Angola, especialmente na região centro-sul.
+                        </p>
+                        <button>Saber mais &#8594;</button>
+                    </div>
+                    <div class="right">
+                        <img src="images/ombela.PNG" alt="Ombela Market"/>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUTOS MAIS VENDIDOS -->
+        <section class="cards">
+            <div class="header-inner-content">
+                <h2 class="section-title">Produtos mais vendidos</h2>
+                <div class="produtos-grid" id="produtos-vendidos">
+                    <!-- Produtos serão carregados dinamicamente -->
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUTOS TECNOLÓGICOS -->
+        <section class="cards">
+            <div class="header-inner-content">
+                <h2 class="section-title">Produtos Tecnológicos</h2>
+                <div class="produtos-grid" id="produtos-tecnologicos">
+                    <!-- Produtos serão carregados dinamicamente -->
+                </div>
+            </div>
+        </section>
+
+        <!-- BANNER PROMOCIONAL -->
+        <section class="banner">
+            <div class="header-inner-content banner-content">
+                <div class="banner-img">
+                    <img src="images/product-7.png" alt="Cadeira Gamer">
+                </div>
+                <div class="banner-text">
+                    <h2>Cadeira Ergonômica Gamer</h2>
+                    <p>
+                        Eleva o teu jogo com a nossa cadeira gamer,
+                        ideal para longas horas sem perder o conforto!
+                    </p>
+                    <button>Ver Agora →</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTEMUNHOS -->
+        <section class="cards">
+            <div class="header-inner-content testemunhos-grid">
+                <div class="testemunho-card">
+                    <p>
+                        "O Melhor website ecommerce responsivo e moderno,
+                        vou já partilhar com o maior número de pessoas."
+                    </p>
+                    <div class="stars">★★★★★</div>
+                    <strong>Isabel Sapesse</strong>
+                </div>
+
+                <div class="testemunho-card">
+                    <p>
+                        "Excelente plataforma! Produtos de qualidade e entrega rápida.
+                        Recomendo a todos!"
+                    </p>
+                    <div class="stars">★★★★★</div>
+                    <strong>Almerindo Lutucuta</strong>
+                </div>
+
+                <div class="testemunho-card">
+                    <p>
+                        "Melhor experiência de compra online em Angola.
+                        Interface intuitiva e produtos excelentes!"
+                    </p>
+                    <div class="stars">★★★★★</div>
+                    <strong>Zeferino Bartolomeu</strong>
+                </div>
+            </div>
+        </section>
+    </header>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="header-inner-content footer-grid">
+            <div class="footer-col">
+                <h3>OMBELA MARKET</h3>
+                <p>
+                    Marketplace e serviço de entregas focado em qualidade,
+                    inovação e acesso facilitado a produtos em Angola.
+                </p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Links Rápidos</h4>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="produtos.html">Produtos</a></li>
+                    <li><a href="sobre.html">Sobre</a></li>
+                    <li><a href="contactos.html">Contactos</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h4>Contactos</h4>
+                <p>Email: contato@ombelamarket.com</p>
+                <p>Telefone: +244 936 408 070</p>
+                <p>Angola</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 Ombela Market — Todos os direitos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Scripts MVC -->
+    <script src="models/Produto.js"></script>
+    <script src="models/Carrinho.js"></script>
+    <script src="models/Pedido.js"></script>
+    <script src="models/ProdutoRepository.js"></script>
+    <script src="controllers/AppController.js"></script>
+    
+    <!-- Inicialização -->
+    <script>
+        // Criar instância global do app
+        let app;
+        
+        // Inicializar quando o DOM estiver carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            app = new AppController();
+            app.inicializar();
+        });
+    </script>
+</body>
+</html>
